@@ -35,9 +35,10 @@ torch>=2.0
 transformers>=4.30
 datasets>=2.14
 torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121   # or cu118 / cpu
-pip install transformers datasets##
+pip install transformers datasets
+---
 
-Quick Start
+##Quick Start
 
 1.Train the model
 python train.py
