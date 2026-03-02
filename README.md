@@ -30,14 +30,14 @@ This project includes:
 
 ## Requirements
 
-```bash
+
 torch>=2.0
 transformers>=4.30
 datasets>=2.14
 torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121   # or cu118 / cpu
 pip install transformers datasets
----
 
+```bash
 ##Quick Start
 
 1.Train the model
