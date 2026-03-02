@@ -30,7 +30,7 @@ This project includes:
 
 ## Requirements
 
-```bash
+
 torch>=2.0
 transformers>=4.30
 datasets>=2.14
