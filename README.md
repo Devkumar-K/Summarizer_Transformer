@@ -1,90 +1,65 @@
-# CNN/DailyMail Text Summarization with Transformer (from scratch)
+# Text Summarization with Transformer from Scratch
 
-A from-scratch implementation of the **Transformer** (Vaswani et al., 2017) for abstractive text summarization on the **CNN/DailyMail** dataset.
+This project implements a complete **Encoder-Decoder Transformer** model from scratch using PyTorch for text summarization. It is trained on the **CNN/DailyMail** dataset and provides a robust framework for sequence-to-sequence learning.
 
-This project includes:
+## ✨ Features
 
-- Full Transformer encoder-decoder architecture implemented in PyTorch
-- Custom dataset preparation for summarization
-- Training loop with gradient clipping and checkpointing
-- Greedy + Beam search decoding (with length penalty)
-- Interactive summarization demo
+- **From-Scratch Transformer Core**:
+  - Scaled Dot-Product and Multi-Head Attention.
+  - Sinusoidal Positional Encoding.
+  - Encoder/Decoder layers with LayerNorm and Residual Connections.
+  - Multi-layer Encoder-Decoder stack with cross-attention.
+- **CNN/DailyMail Integration**: Automated dataset loading and pre-tokenization via HuggingFace `datasets`.
+- **Advanced Decoding**: Supports both **Greedy Search** and **Beam Search** (with length normalization) for high-quality summaries.
+- **Training Pipeline**: Comprehensive training loop with validation, gradient clipping, and checkpoint saving.
+- **Interactive Mode**: Test the model with your own articles in real-time.
 
-## Features
+## 📂 Project Structure
 
-- Pure PyTorch (no `nn.Transformer` usage)
-- BERT tokenizer (`bert-base-uncased`)
-- Positional encoding, multi-head attention, feed-forward layers
-- Proper causal + padding masking
-- Beam search with length penalty
-- Simple model checkpointing & best-model selection
-- Sample generation on validation set (greedy + beam)
+- `model.py`: Manual implementation of the Transformer architecture components.
+- `dataset.py`: CNN/DailyMail data loading and processing using `bert-base-uncased` tokenization.
+- `train.py`: Training script with configurable hyperparameters (`Config` class).
+- `generate.py`: Inference utilities, evaluation samples, and interactive summarization demo.
 
-## Project Structure
-├── dataset.py             # Dataset + DataLoader for CNN/DailyMail
-├── model.py               # Full Transformer implementation (Encoder + Decoder)
-├── train.py               # Training loop + validation
-├── generate.py            # Inference: greedy + beam search + interactive mode
-├── transformer_summ.pt    # (generated) best checkpoint
-└── README.md
+## 🚀 Getting Started
 
-## Requirements
+### 1. Prerequisites
+Ensure you have Python 3.8+ and the following packages installed:
+```bash
+pip install torch transformers datasets
+```
 
-
-torch>=2.0
-transformers>=4.30
-datasets>=2.14
-torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121   # or cu118 / cpu
-pip install transformers datasets
-
-
-##Quick Start
-
-1.Train the model
+### 2. Training
+To start training the model on the CNN/DailyMail dataset:
+```bash
 python train.py
+```
+*Current configuration (in `train.py`):*
+- Epochs: 10
+- Batch Size: 16
+- Optimizer: AdamW (LR: 3e-4)
+- Max Source Length: 512 | Max Target Length: 128
 
-##Default config (can be changed in Config class):
-
-*40,000 training examples
-*batch size 16
-*d_model=256, 4 heads, 4 enc/dec layers
-*~14–15M parameters
-*10 epochs
-
-##2.Generate summaries (after training)
+### 3. Inference & Interactive Demo
+Use a saved checkpoint (default: `transformer_summ.pt`) to generate summaries for validation samples or your own text:
+```bash
 python generate.py
+```
+This script will:
+1. Load the best saved model.
+2. Print sample summaries (Greedy & Beam Search).
+3. Enter an interactive loop where you can paste an article and get a generated summary.
 
-What it does:
-Loads the best checkpoint (transformer_summ.pt)
-Shows greedy + beam search (width=4) summaries on 5 validation examples
-Starts interactive mode — paste any article and get a summary
+## 🛠 Model Configuration
 
-##Model Configuration (default)
+The `Config` class in `train.py` allows easy experimentation:
+- `d_model`: 256 (Hidden dimension)
+- `n_heads`: 4 (Attention heads)
+- `n_enc_layers`/`n_dec_layers`: 4 layers each
+- `d_ff`: 1024 (Feed-forward network dimension)
 
-d_model = 256
-heads = 4
-encoder layers = 4
-decoder layers = 4
-feed-forward dim = 1024
-dropout = 0.1
-max src len = 512
-max tgt len = 128
-learning rate = 3e-4
-optimizer = AdamW
-gradient clip = 1.0
+## 📊 Performance
+The model is trained to minimize CrossEntropyLoss on the CNN/DailyMail highlights. Beam search (default `beam_width=4`) significantly improves summary quality by exploring multiple hypotheses.
 
-##Example output style:
-Ground truth:
-  Police are searching for a man who robbed a bank in broad daylight...
-
-Predicted (greedy):
-  Authorities are looking for a suspect after a bank robbery occurred...
-
-Predicted (beam):
-  A man robbed a bank in the middle of the day and fled the scene, police said.
-
-##Acknowledgments:
-
-  *Dataset: CNN/DailyMail 3.0
-  *Architecture inspired by: "Attention is All You Need" (Vaswani et al., 2017)
-  *Hugging Face transformers and datasets libraries
+---
+*Built with PyTorch. References: "Attention Is All You Need" (Vaswani et al., 2017).*
