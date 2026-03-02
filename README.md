@@ -21,11 +21,11 @@ This project includes:
 - Sample generation on validation set (greedy + beam)
 
 ## Project Structure
-├── dataset.py       # Dataset + DataLoader for CNN/DailyMail
-├── model.py         # Full Transformer implementation (Encoder + Decoder)
-├── train.py         # Training loop + validation
-├── generate.py      # Inference: greedy + beam search + interactive mode
-├── transformer_summ.pt   # (generated) best checkpoint
+├── dataset.py             # Dataset + DataLoader for CNN/DailyMail
+├── model.py               # Full Transformer implementation (Encoder + Decoder)
+├── train.py               # Training loop + validation
+├── generate.py            # Inference: greedy + beam search + interactive mode
+├── transformer_summ.pt    # (generated) best checkpoint
 └── README.md
 
 ## Requirements
@@ -37,13 +37,13 @@ datasets>=2.14
 torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121   # or cu118 / cpu
 pip install transformers datasets
 
-```bash
+
 ##Quick Start
 
 1.Train the model
 python train.py
 
-Default config (can be changed in Config class):
+##Default config (can be changed in Config class):
 
 *40,000 training examples
 *batch size 16
@@ -51,7 +51,7 @@ Default config (can be changed in Config class):
 *~14–15M parameters
 *10 epochs
 
-2.Generate summaries (after training)
+##2.Generate summaries (after training)
 python generate.py
 
 What it does:
@@ -59,7 +59,7 @@ Loads the best checkpoint (transformer_summ.pt)
 Shows greedy + beam search (width=4) summaries on 5 validation examples
 Starts interactive mode — paste any article and get a summary
 
-Model Configuration (default)
+##Model Configuration (default)
 
 d_model = 256
 heads = 4
@@ -73,7 +73,7 @@ learning rate = 3e-4
 optimizer = AdamW
 gradient clip = 1.0
 
-Example output style:
+##Example output style:
 Ground truth:
   Police are searching for a man who robbed a bank in broad daylight...
 
@@ -83,7 +83,7 @@ Predicted (greedy):
 Predicted (beam):
   A man robbed a bank in the middle of the day and fled the scene, police said.
 
-Acknowledgments:
+##Acknowledgments:
 
   *Dataset: CNN/DailyMail 3.0
   *Architecture inspired by: "Attention is All You Need" (Vaswani et al., 2017)
